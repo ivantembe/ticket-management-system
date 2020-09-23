@@ -1,5 +1,6 @@
 import User from '../models/User';
 import handleErrors from '../utils/handleErrors';
+import createToken from '../utils/jwtAuth';
 
 // signup a user
 exports.signUp = async (req, res, next) => {
@@ -16,7 +17,10 @@ exports.signUp = async (req, res, next) => {
     .save()
     .then((user) => {
       console.log('>>> New user created', user);
-      res.status(201).json({ user });
+      const token = createToken(user._id);
+      const maxAgeCookie = 7 * 24 * 60 * 60 * 1000; // in miliseconds
+      res.cookie('jwt', token, { httpOnly: true, maxAge: maxAgeCookie });
+      res.status(201).json({ user: user._id });
       // res.redirect('/admin/dashboard');
     })
     .catch((err) => {
