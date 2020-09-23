@@ -1,0 +1,12 @@
+# Node Modules
+node_modules
+
+# Eslint & Prettier
+.eslintrc.json
+.prettierrc.json
+
+# Dotenv
+.env
+
+# Text Files
+project_idea.txt
