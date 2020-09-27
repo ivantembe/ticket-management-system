@@ -20,7 +20,7 @@ exports.signUp = async (req, res, next) => {
   await newUser
     .save()
     .then((user) => {
-      console.log('>>> New user created', user);
+      // console.log('>>> New user created', user);
       const token = createToken(user._id);
       res.cookie('jwt', token, { httpOnly: true, maxAge: maxAgeCookie });
       res.status(201).json({ user });
@@ -42,16 +42,16 @@ exports.login = async (req, res) => {
     const match = await bcrypt.compare(password, user.password);
 
     if (match) {
-      console.log(user._id);
+      // console.log(user._id);
       const token = createToken(user._id);
       res.cookie('jwt', token, { httpOnly: true, maxAge: maxAgeCookie });
       res.status(200).json({ user: user._id });
     } else {
-      console.log('Wrong password');
-      res.status(400).json({ error: 'wrong password' });
+      res.status(400).json({ errors: { error: 'wrong password' } });
     }
   } else {
-    console.log('user does not exist');
-    res.status(400).json({ error: 'user does not exist' });
+    res.status(400).json({
+      errors: { error: 'User does not exist. Check your email or signup' },
+    });
   }
 };
