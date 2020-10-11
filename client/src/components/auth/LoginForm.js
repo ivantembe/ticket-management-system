@@ -1,27 +1,35 @@
 import React from 'react'
-import InputField from '../common/inputs/InputField'
-import CheckBoxComponent from '../common/inputs/CheckBoxComponent'
-import ButtonComponent from '../common/inputs/ButtonComponent'
+import { TextValidator } from 'react-material-ui-form-validator'
+import CheckBoxComponent from '../shared/inputs/CheckBoxComponent'
+import ButtonComponent from '../shared/inputs/ButtonComponent'
 import FormSwitch from './FormSwitch'
 
 const Login = ({ authData, handleChange, handleFormSwitch }) => {
   return (
     <div>
-      <InputField
+      <TextValidator
         name='email'
         label='Email Address'
         value={authData.email}
         onChange={handleChange}
+        variant='outlined'
+        margin='normal'
+        autoComplete='off'
+        fullWidth
         validators={['required', 'isEmail']}
         errorMessages={['Field is required', 'Email is not valid']}
         autoFocus
       />
-      <InputField
+      <TextValidator
         name='password'
         type='password'
         label='Password'
         value={authData.password}
         onChange={handleChange}
+        variant='outlined'
+        margin='normal'
+        autoComplete='off'
+        fullWidth
         validators={['required', 'minStringLength:6']}
         errorMessages={['Field is required', 'Password is too short. Min 6 characters']}
       />

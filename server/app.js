@@ -4,6 +4,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
 import authRoutes from './routes/authRoutes';
+import projectRoutes from './routes/projectRoutes';
 import dbConnection from './utils/dbConfig';
 
 const app = express();
@@ -25,3 +26,4 @@ dbConnection(
 
 // routes
 app.use('/users', authRoutes);
+app.use('/projects', projectRoutes);

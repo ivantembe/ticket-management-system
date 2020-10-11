@@ -1,6 +1,8 @@
-import { Schema, model } from 'mongoose';
+import mongoose, { model } from 'mongoose';
 import { isEmail } from 'validator';
 import bcrypt from 'bcrypt';
+
+const { Schema } = mongoose;
 
 const userSchema = new Schema({
   fname: {
@@ -23,6 +25,7 @@ const userSchema = new Schema({
     required: [true, 'Please enter your password'],
     minlength: [6, 'Minimum password length is 6 characters'],
   },
+  projects: [{ type: mongoose.Types.ObjectId, required: true, ref: 'Project' }],
 });
 
 // password hashing before saving user

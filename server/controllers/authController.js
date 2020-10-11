@@ -15,6 +15,7 @@ exports.signUp = async (req, res, next) => {
     lname,
     email,
     password,
+    projects: [],
   });
 
   await newUser
@@ -23,7 +24,7 @@ exports.signUp = async (req, res, next) => {
       // console.log('>>> New user created', user);
       const token = createToken(user._id);
       res.cookie('jwt', token, { httpOnly: true, maxAge: maxAgeCookie });
-      res.status(201).json({ user });
+      res.status(201).json({ user: user._id });
     })
     .catch((err) => {
       const errorsObject = { fname: '', lname: '', email: '', password: '' };
@@ -47,7 +48,7 @@ exports.login = async (req, res) => {
       res.cookie('jwt', token, { httpOnly: true, maxAge: maxAgeCookie });
       res.status(200).json({ user: user._id });
     } else {
-      res.status(400).json({ errors: { error: 'wrong password' } });
+      res.status(400).json({ errors: { error: 'Wrong password' } });
     }
   } else {
     res.status(400).json({

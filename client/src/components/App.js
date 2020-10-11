@@ -1,23 +1,17 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-// import { createStore } from 'redux'
-// import { Provider } from 'react-redux'
 
-import Registration from './userAuth/AuthForm'
-import Projects from './Projects'
-
-// const store = createStore()
+import Registration from './auth/authPage'
+import ProjectList from './projects/ProjectList'
 
 function App() {
   return (
-    // <Provider store={store}>
     <Router>
       <Switch>
-        <Route path='/projects' component={Projects} />
+        <Route path='/projects/:userId' component={ProjectList} />
         <Route path='/' exact component={Registration} />
       </Switch>
     </Router>
-    // </Provider>
   )
 }
 

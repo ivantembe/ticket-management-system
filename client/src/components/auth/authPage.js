@@ -4,13 +4,16 @@ import Paper from '@material-ui/core/Paper'
 import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
 import { ValidatorForm } from 'react-material-ui-form-validator'
+// import { connect } from 'react-redux'
 import axios from 'axios'
 
-import Heading from '../common/typography/Heading'
-import SimpleAlerts from '../common/Alert'
-import Copyright from '../common/Copyright'
-import Login from './Login'
-import SignUp from './SignUp'
+import Heading from '../shared/typography/Heading'
+import SimpleAlerts from '../shared/Alert'
+import Copyright from '../shared/Footer'
+import Login from './LoginForm'
+import SignUp from './SignUpForm'
+
+// import { userAuthAction } from '../../store/actions/authActions'
 
 import useStyles from './styles/useStyles'
 
@@ -25,6 +28,7 @@ const AuthForm = (props) => {
   const [isToggleOn, setIsToggleOn] = useState(true)
   const [alertMessage, setAlertMessage] = useState('')
   const classes = useStyles()
+  // const { authData, isToggleOn, alertMessage } = props
 
   const handleFormSwitch = () => {
     setIsToggleOn(!isToggleOn)
@@ -42,14 +46,21 @@ const AuthForm = (props) => {
     const loginData = { email, password }
     const signupData = { fname, lname, email, password }
 
+    const axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
     axios
       .post(
         `http://localhost:8080/users/${isToggleOn ? 'login' : 'signup'}`,
-        isToggleOn ? loginData : signupData
+        isToggleOn ? loginData : signupData,
+        axiosConfig
       )
       .then((response) => {
-        console.log(response.data)
-        props.history.push('/projects')
+        // console.log(response.data.user)
+        props.history.push(`/projects/${response.data.user}`)
       })
       .catch((err) => {
         const errorsObj = Object.values(err.response.data.errors)
@@ -92,4 +103,21 @@ const AuthForm = (props) => {
   )
 }
 
+// Redux
+// const mapStateToProps = (state) => {
+//   const { authData, isToggleOn, alertMessage } = state.auth
+//   return {
+//     authData,
+//     isToggleOn,
+//     alertMessage,
+//   }
+// }
+
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     signUp: (user, authType) => dispatch(userAuthAction(user, authType)),
+//   }
+// }
+
+// export default connect(mapStateToProps, mapDispatchToProps)(AuthForm)
 export default AuthForm
